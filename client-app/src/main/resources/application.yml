@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8181
 
 logging:
   level:
@@ -8,6 +8,8 @@ logging:
     org.springframework.security: INFO
     org.springframework.security.oauth2: INFO
 #    org.springframework.boot.autoconfigure: DEBUG
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+
 
 spring:
   thymeleaf:
@@ -37,8 +39,10 @@ spring:
             scope: message.read,message.write
         provider:
           keycloak:
-            authorization-uri: http://auth-server:8090/auth/realms/oauth2-sample/protocol/openid-connect/auth
-            token-uri: http://auth-server:8090/auth/realms/oauth2-sample/protocol/openid-connect/token
+            authorization-uri: http://auth-server:8180/auth/realms/oauth2-sample/protocol/openid-connect/auth
+            token-uri: http://auth-server:8180/auth/realms/oauth2-sample/protocol/openid-connect/token
 
 messages:
+#  base-uri: http://localhost:8181/messages
+#  base-uri: http://localhost:8181
   base-uri: http://localhost:8092/messages
