@@ -15,6 +15,9 @@
  */
 package org.springframework.security.oauth.samples.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.oauth.samples.aop.LogExecutionTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,24 +27,38 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class DefaultController {
-
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    
+    private void logBeforeExecution(String methodName, String pattern) {
+    	String className = this.getClass().getCanonicalName();
+    	logger.info(String.format("%s::%s with pattern %s called", className, methodName, pattern));
+    }
+    
+    @LogExecutionTime
 	@GetMapping("/")
 	public String root() {
+		logBeforeExecution("root", "/");
 		return "redirect:/index";
 	}
 
+    @LogExecutionTime
 	@GetMapping("/index")
 	public String index() {
+		logBeforeExecution("index", "/index");
 		return "index";
 	}
 
+    @LogExecutionTime
 	@GetMapping("/login")
 	public String login() {
+		logBeforeExecution("login", "/login");
 		return "login";
 	}
 
+    @LogExecutionTime
 	@GetMapping("/login-error")
 	public String loginError(Model model) {
+		logBeforeExecution("loginError", "/login-error");
 		model.addAttribute("loginError", true);
 		return login();
 	}

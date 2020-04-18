@@ -15,3 +15,10 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:8180/auth/realms/oauth2-sample/protocol/openid-connect/certs
+
+custom:
+  messages:
+    message-1: Clayton Bodine was here.
+    message-2: He modified this code.
+    message-3: Today is Thursday, 16 April 2020.
+  

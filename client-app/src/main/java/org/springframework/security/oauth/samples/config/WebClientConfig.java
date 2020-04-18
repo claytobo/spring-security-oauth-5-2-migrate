@@ -17,6 +17,8 @@ package org.springframework.security.oauth.samples.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth.samples.aop.LogExecution;
+import org.springframework.security.oauth.samples.aop.LogExecutionTime;
 import org.springframework.security.oauth2.client.OAuth2AuthorizationContext;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
@@ -42,6 +44,8 @@ import java.util.function.Function;
 @Configuration
 public class WebClientConfig {
 
+    @LogExecutionTime
+    @LogExecution
 	@Bean
 	WebClient webClient(OAuth2AuthorizedClientManager authorizedClientManager) {
 		ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2Client =
@@ -51,6 +55,8 @@ public class WebClientConfig {
 				.build();
 	}
 
+    @LogExecutionTime
+    @LogExecution
 	@Bean
 	OAuth2AuthorizedClientManager authorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
 															OAuth2AuthorizedClientRepository authorizedClientRepository) {
@@ -72,6 +78,8 @@ public class WebClientConfig {
 		return authorizedClientManager;
 	}
 
+    @LogExecutionTime
+    @LogExecution
 	private Function<OAuth2AuthorizeRequest, Map<String, Object>> contextAttributesMapper() {
 		return authorizeRequest -> {
 			Map<String, Object> contextAttributes = Collections.emptyMap();

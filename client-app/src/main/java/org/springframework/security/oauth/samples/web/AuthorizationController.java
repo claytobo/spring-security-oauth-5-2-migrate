@@ -25,11 +25,15 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Joe Grandja
  */
 @Controller
 public class AuthorizationController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Value("${messages.base-uri}")
 	private String messagesBaseUri;
@@ -37,9 +41,15 @@ public class AuthorizationController {
 	@Autowired
 	private WebClient webClient;
 
+    private void logBeforeExecution(String methodName, String pattern) {
+    	String className = this.getClass().getCanonicalName();
+    	logger.info(String.format("%s::%s with pattern %s called", className, methodName, pattern));
+    }
 
 	@GetMapping(value = "/authorize", params = "grant_type=authorization_code")
 	public String authorization_code_grant(Model model) {
+		logBeforeExecution("authorization_code_grant", "/authorize");
+		logger.info(String.format("model = %s", model.toString()));
 		String[] messages = retrieveMessages("messaging-client-auth-code");
 		model.addAttribute("messages", messages);
 		return "index";
@@ -47,6 +57,8 @@ public class AuthorizationController {
 
 	@GetMapping("/authorized")		// registered redirect_uri for authorization_code
 	public String authorized(Model model) {
+		logBeforeExecution("authorized", "/authorized");
+		logger.info(String.format("model = %s", model.toString()));
 		String[] messages = retrieveMessages("messaging-client-auth-code");
 		model.addAttribute("messages", messages);
 		return "index";
@@ -54,6 +66,8 @@ public class AuthorizationController {
 
 	@GetMapping(value = "/authorize", params = "grant_type=client_credentials")
 	public String client_credentials_grant(Model model) {
+		logBeforeExecution("client_credentials_grant", "/authorize");
+		logger.info(String.format("model = %s", model.toString()));
 		String[] messages = retrieveMessages("messaging-client-client-creds");
 		model.addAttribute("messages", messages);
 		return "index";
@@ -61,6 +75,8 @@ public class AuthorizationController {
 
 	@PostMapping(value = "/authorize", params = "grant_type=password")
 	public String password_grant(Model model) {
+		logBeforeExecution("password_grant", "/authorize");
+		logger.info(String.format("model = %s", model.toString()));
 		String[] messages = retrieveMessages("messaging-client-password");
 		model.addAttribute("messages", messages);
 		return "index";

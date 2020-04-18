@@ -15,6 +15,7 @@
  */
 package org.springframework.security.oauth.samples.web;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,10 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class MessagesController {
-
+	@Value("${custom.messages.message-1}")
+	private String msg1;
+	@Value("${custom.messages.message-2}")
+	private String msg2;
+	@Value("${custom.messages.message-3}")
+	private String msg3;
+	
 	@GetMapping("/messages")
 	public String[] getMessages() {
-		String[] messages = new String[] {"Message 1", "Message 2", "Message 3"};
+		String[] messages = new String[] {msg1, msg2, msg3};
 		return messages;
 	}
 }
